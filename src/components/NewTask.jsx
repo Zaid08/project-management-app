@@ -31,7 +31,7 @@ import Input from './Input';
     //         </div>
     //     );
     // }
-export default function NewTask({ onAdd }) {
+export default function NewTask({ onAdd, selectedProjectId }) {
     const modal = useRef();
     const task = useRef();
 
@@ -43,7 +43,12 @@ export default function NewTask({ onAdd }) {
             return;
         }
 
-        onAdd(enteredTask);
+        if (!selectedProjectId) {
+            alert('No project selected');
+            return;
+        }
+
+        onAdd(enteredTask, selectedProjectId);
         task.current.value = '';
         
     }
