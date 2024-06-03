@@ -11,31 +11,63 @@ function App() {
     tasks: []
   });
 
-  function handleAddTask(text){
-    setProjectState(prevState => {
-      const taskId = Math.random();
-      const newTask = {
-          text: text,
-          projectId: prevState.selectedProjectId,
-          id: taskId,
-      };
-      return {
-        ...prevState,
-        tasks:[ newTask, ...prevState.tasks]
-      }
-    })
-  }
+  // function handleAddTask(text){
+  //   setProjectState(prevState => {
+  //     const taskId = Math.random();
+  //     const newTask = {
+  //         text: text,
+  //         projectId: prevState.selectedProjectId,
+  //         id: taskId,
+  //     };
+  //     return {
+  //       ...prevState,
+  //       tasks:[ newTask, ...prevState.tasks]
+  //     }
+  //   })
+  // }
 
-  function handleDeleteTask(id) {
+  // function handleDeleteTask(id) {
+  //   setProjectState(prevState => {
+  //     return {
+  //       ...prevState,
+  //       tasks: prevState.tasks.filter(
+  //         (task) => task.id !== id
+  //       ),
+  //     };
+  //   });
+  // }
+
+  function handleAddTask(text, projectId) {
     setProjectState(prevState => {
-      return {
-        ...prevState,
-        tasks: prevState.tasks.filter(
-          (task) => task.id !== id
-        ),
-      };
+        const taskId = Math.random();
+        const newTask = {
+            text: text,
+            id: taskId,
+        };
+
+        return {
+            ...prevState,
+            tasks: {
+                ...prevState.tasks,
+                [projectId]: [newTask, ...(prevState.tasks[projectId] || [])],
+            },
+        };
     });
-  }
+}
+  
+
+function handleDeleteTask(taskId) {
+  setProjectState(prevState => {
+    const projectId = prevState.selectedProjectId;
+    return {
+      ...prevState,
+      tasks: {
+        ...prevState.tasks,
+        [projectId]: prevState.tasks[projectId].filter(task => task.id !== taskId),
+      },
+    };
+  });
+}
 
   function handleSelectProject(id){
     setProjectState(prevState => {
@@ -100,6 +132,7 @@ function App() {
       onAddTask={handleAddTask}
       onDeleteTask={handleDeleteTask}
       tasks={projectState.tasks}
+      selectedProjectId={projectState.selectedProjectId}
       />
   );
 
