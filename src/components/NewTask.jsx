@@ -44,6 +44,8 @@ export default function NewTask({ onAdd }) {
         }
 
         onAdd(enteredTask);
+        task.current.value = '';
+        
     }
 
 
