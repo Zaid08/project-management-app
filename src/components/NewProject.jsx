@@ -14,8 +14,8 @@ export default function NewProject({onAdd, onCancel}){
 
         // validation ...
         if(enteredTitle.trim() === "" || 
-           enteredDescription === "" || 
-           enteredDueDate === ''
+           enteredDescription.trim() === "" || 
+           enteredDueDate.trim() === ''
           ) {
             // show the error modal
             modal.current.open();
